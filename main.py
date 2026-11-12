@@ -1,4 +1,6 @@
 import os
+import re
+from random import randint as rdt
 from PIL import Image, ImageOps
 from PIL.ExifTags import TAGS
 SUPPORTED_FORMATS = ['jpg','jpeg','JPG','JPEG','png','PNG','webp','WEBP']
@@ -102,8 +104,13 @@ if delposs:
 
                     nimg = Image.new(image.mode,image.size)
                     nimg.putdata(img_data)
-
+                    
                     extension = img.split('.')[-1]
+                    # name correction : name IS a metadata
+                    if re.search(r'IMG_[0-9]{4}',img) is not None or re.search(r'[0-9]{8}_[0-9]{6}',img) is not None:
+                        img = "".join([f"{rdt(0,0xFF):06x}" for _ in range(rdt(8,32))])
+                        img = img+'.'+extension
+                        
                     if extension.lower()=='png':
                         fmt = "PNG"
                         nimg.save(img, format=fmt, optimize=True)
