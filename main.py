@@ -108,7 +108,7 @@ if delposs:
                     extension = img.split('.')[-1]
                     # name correction : name IS a metadata
                     if re.search(r'IMG_[0-9]{4}',img) is not None or re.search(r'[0-9]{8}_[0-9]{6}',img) is not None:
-                        img = "".join([f"{rdt(0x0,0xF):06x}" for _ in range(rdt(8,32))])
+                        img = f"{rdt(0x0,0xFFFFFFFFFFFFFFFFFFFF):08x}"
                         img = img+'.'+extension
                         
                     if extension.lower()=='png':
